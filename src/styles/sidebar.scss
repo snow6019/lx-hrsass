@@ -8,6 +8,7 @@
   }
 
   .sidebar-container {
+    background: -webkit-linear-gradient(bottom, #3d6df8, #5b8cff);
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
