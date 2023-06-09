@@ -12,8 +12,14 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
       next({ path: '/' })
     } else {
-      NProgress.done()
-      next()
+      if (Object.keys(store.state.user.userInfo).length <= 0) {
+        store.dispatch('user/getUserInfo').then(() => {
+          // NProgress.done()
+          next()
+        })
+      } else {
+        next()
+      }
     }
   } else {
     if (whiteList.includes(to.path)) {

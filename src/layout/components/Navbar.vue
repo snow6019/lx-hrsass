@@ -13,7 +13,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img src="@/assets/common/bigUserHeader.png" class="user-avatar">
-          <span class="name">管理员</span>
+          <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color:#fff" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -41,7 +41,6 @@
 import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import { getUserInfo } from '@/api/user'
 
 export default {
   components: {
@@ -51,24 +50,21 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   created() {
-    this.getUserInfo()
+    // this.getUserInfo()
   },
   methods: {
+    // ...mapActions('user', ['getUserInfo']),
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    },
-    getUserInfo() {
-      getUserInfo().then(res => {
-        console.log('getUserInfo===' + res)
-      })
     }
   }
 }
