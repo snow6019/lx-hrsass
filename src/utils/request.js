@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
+import router from '@/router'
 import { Message } from 'element-ui'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -28,7 +29,13 @@ service.interceptors.response.use(response => {
     return Promise.reject(new Error(message))
   }
 }, error => {
-  Message.error(error.message) // 提示错误信息
+  console.dir(error)
+  if (error.status === 401 && error.data.code === 10002) {
+    store.dispatch('user/logout') // 登出action 删除token
+    router.push(`/login?redirect=${this.$route.fullPath}`)
+  } else {
+    Message.error(error.message) // 提示错误信息
+  }
   return Promise.reject(error) // 返回执行错误 让当前的执行链跳出成功 直接进入 catch
 })
 export default service
